@@ -12,9 +12,9 @@ jobs:
       matrix:
         python-version: ["3.11"]
     steps:
-      - name: Install python ${{ matrix.python-version }}
+      - name: Install python
         run: |
-        echo "Install"
+          echo "Install"
       - name: Install dependencies
         run: |
           echo "deps"
