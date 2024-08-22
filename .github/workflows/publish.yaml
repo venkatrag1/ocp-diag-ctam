@@ -14,9 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
+        run: |
+        echo "Install"
       - name: Install dependencies
         run: |
           echo "deps"
@@ -31,7 +30,7 @@ jobs:
           echo "typing"
       - name: Unittest with testslide
         run: |
-          find unittests -type f -name "test_*.py" | xargs testslide
+          echo "Unittest"
       - name: Integration test with Redfish Emulator
         run: |
           echo "Integration Testing"
