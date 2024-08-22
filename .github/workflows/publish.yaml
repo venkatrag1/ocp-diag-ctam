@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  pytest:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,15 +27,36 @@ jobs:
       - name: Check typing with mypy
         run: |
           echo "typing"
-      - name: Unittest with testslide
-        run: |
-          echo "Unittest"
-      - name: Integration test with Redfish Emulator
-        run: |
-          echo "Integration Testing"
       - name: Build sdist and wheel
         run: |
           echo "Build package"
+  unittest:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    steps:
+      - name: Unittest with testslide
+        run: |
+          echo "Unittest"
+  integration_test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    steps:
+      - name: Integration test with Redfish Emulator
+        run: |
+          echo "Integration Testing"
+  publish:
+    needs: [unittest, integration_test]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    steps:
       - name: Publish Package
         run: |
           echo "Publish to PyPI"
